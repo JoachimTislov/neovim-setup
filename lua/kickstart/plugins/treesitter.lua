@@ -20,6 +20,18 @@ return { -- Highlight, edit, and navigate code
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-  }
+   --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+   config = function(_, opts)
+    vim.filetype.add {
+      extension = { rasi = 'rasi' },
+      pattern = {
+        ['.*/waybar/config'] = 'jsonc',
+        ['.*/mako/config'] = 'dosini',
+        ['.*/kitty/*.conf'] = 'bash',
+        ['.*/hypr/.*%.conf'] = 'hyprlang',
+      },
+    }
+    require('nvim-treesitter.configs').setup(opts)
+   end
+}
