@@ -90,45 +90,49 @@ return {
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
         end
+
+        -- Diagnostic Config
+        -- See :help vim.diagnostic.Opts
+        vim.diagnostic.config {
+          severity_sort = true,
+          float = {
+            border = 'rounded',
+            source = 'if_many',
+          },
+          underline = { severity = vim.diagnostic.severity.ERROR },
+          signs = vim.g.have_nerd_font and {
+            text = {
+              [vim.diagnostic.severity.ERROR] = '󰅚 ',
+              [vim.diagnostic.severity.WARN] = '󰀪 ',
+              [vim.diagnostic.severity.INFO] = '󰋽 ',
+              [vim.diagnostic.severity.HINT] = '󰌶 ',
+            },
+          } or {},
+          virtual_text = {
+            source = 'if_many',
+            spacing = 2,
+            format = function(diagnostic)
+              local diagnostic_message = {
+                [vim.diagnostic.severity.ERROR] = diagnostic.message,
+                [vim.diagnostic.severity.WARN] = diagnostic.message,
+                [vim.diagnostic.severity.INFO] = diagnostic.message,
+                [vim.diagnostic.severity.HINT] = diagnostic.message,
+              }
+              return diagnostic_message[diagnostic.severity]
+            end,
+          },
+        }
       end,
     })
 
-    -- Diagnostic Config
-    -- See :help vim.diagnostic.Opts
-    vim.diagnostic.config {
-      severity_sort = true,
-      float = { border = 'rounded', source = 'if_many' },
-      underline = { severity = vim.diagnostic.severity.ERROR },
-      signs = vim.g.have_nerd_font and {
-        text = {
-          [vim.diagnostic.severity.ERROR] = '󰅚 ',
-          [vim.diagnostic.severity.WARN] = '󰀪 ',
-          [vim.diagnostic.severity.INFO] = '󰋽 ',
-          [vim.diagnostic.severity.HINT] = '󰌶 ',
-        },
-      } or {},
-      virtual_text = {
-        source = 'if_many',
-        spacing = 2,
-        format = function(diagnostic)
-          local diagnostic_message = {
-            [vim.diagnostic.severity.ERROR] = diagnostic.message,
-            [vim.diagnostic.severity.WARN] = diagnostic.message,
-            [vim.diagnostic.severity.INFO] = diagnostic.message,
-            [vim.diagnostic.severity.HINT] = diagnostic.message,
-          }
-          return diagnostic_message[diagnostic.severity]
-        end,
-      },
-    }
-
-    local vue_ts_plugin = {
+    local vue_ls_path = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server'
+    local vue_plugin = {
       name = '@vue/typescript-plugin',
-      location = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server',
+      location = vue_ls_path,
       languages = { 'vue' },
       configNamespace = 'typescript',
     }
-
+    local vue_filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' }
     local lspconfig = require 'lspconfig'
     local util = require 'lspconfig/util'
     local capabilities = require('blink.cmp').get_lsp_capabilities()
@@ -138,7 +142,7 @@ return {
       gopls = {
         cmd = { 'gopls' },
         filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-        root_dir = util.root_pattern('go.work', 'go.mod'),
+        root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
         settings = {
           gopls = {
             completeUnimported = true,
@@ -150,22 +154,38 @@ return {
         },
       },
       pyright = {},
+      -- Setup vue: https://github.com/vuejs/language-tools/wiki/Neovim
       vtsls = {
+        root_dir = util.root_pattern('tsconfig.json', 'package.json', '.git'),
         settings = {
           vtsls = {
             tsserver = {
               globalPlugins = {
-                vue_ts_plugin,
+                vue_plugin,
               },
             },
           },
+          typescript = {
+            preferences = {
+              importModuleSpecifier = 'non-relative',
+            },
+          },
         },
-        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        filetypes = vue_filetypes,
       },
       vue_ls = {},
       -- Some languages (like typescript) have entire language plugins that can be useful:
       --    https://github.com/pmizio/typescript-tools.nvim
-      ts_ls = {},
+      ts_ls = {
+        init_options = {
+          plugins = {
+            vue_plugin,
+          },
+          filetypes = vue_filetypes,
+        },
+      },
+      bashls = {},
+      jsonls = {},
       cssls = {},
       lua_ls = {
         -- cmd = { ... },
@@ -185,11 +205,13 @@ return {
     vim.list_extend(ensure_installed, {
       'stylua',
       'prettierd',
+      'shfmt',
+      'rustywind',
+      'clang-format',
+      'jq',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
     require('mason-lspconfig').setup {
-      ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-      automatic_enable = {},
       automatic_installation = false,
       handlers = {
         function(server_name)
