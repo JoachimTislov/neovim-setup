@@ -1,5 +1,5 @@
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+-- :h lazy.nvim.txt
+-- https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local out = vim.fn.system {
@@ -16,3 +16,22 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
+
+require('lazy').setup {
+  spec = {
+    { 'NMAC427/guess-indent.nvim' },
+    { import = 'plugins' },
+  },
+  change_detection = {
+    enabled = true,
+    notify = false,
+  },
+  defaults = {
+    autocmds = false,
+    keymaps = false,
+  },
+  rocks = {
+    enabled = true,
+    hererocks = false,
+  },
+}

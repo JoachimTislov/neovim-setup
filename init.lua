@@ -2,7 +2,6 @@
   https://learnxinyminutes.com/docs/lua/
   :help lua-guide
   <space>sh
-  :checkhealth
   :help vim.o - Setting options (for options - :help option-list)
   :help gitsigns to understand what the configuration keys do
   normal autocommands events :help autocmd-events.
@@ -16,8 +15,7 @@ vim.g.maplocalleader = ' '
 
 vim.g.have_nerd_font = true
 
-require 'options'
-require 'keymaps'
-require 'plugins.autocmds.yank-highlight'
-require 'lazy-install'
-require 'lazy-plugins'
+require 'config.options'
+require 'config.keymaps'
+require 'config.autocmds.yank-highlight'
+require 'config.lazy'

@@ -1,9 +1,12 @@
 return {
   'catppuccin/nvim',
-  name = 'catppuccin',
   priority = 1000,
   config = function()
     require('catppuccin').setup {
+      float = {
+        transparent = true,
+        solid = true,
+      },
       flavour = 'auto',
       background = {
         light = 'latte',

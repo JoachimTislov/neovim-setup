@@ -38,6 +38,7 @@ local lsp_symbols = {
       'vim',
       'error',
       'string',
+      'tostring',
     },
     ['field'] = {
       'fs_stat',

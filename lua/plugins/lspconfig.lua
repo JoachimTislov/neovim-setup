@@ -18,10 +18,8 @@ return {
     },
   },
   config = function()
-    require 'plugins.autocmds.lsp-attach'
-    require 'plugins.diagnostics'
-
-    vim.lsp.set_log_level 'DEBUG'
+    require 'config.autocmds.lsp-attach'
+    require 'config.diagnostics'
 
     local capabilities = require('blink.cmp').get_lsp_capabilities()
     local servers = {

@@ -41,7 +41,7 @@ return { -- Highlight, edit, and navigate code
     vim.filetype.add {
       extension = {
         rasi = 'rasi',
-        lua = 'lua',
+        -- lua = 'lua',
       },
       pattern = {
         ['.*/waybar/config'] = 'jsonc',
