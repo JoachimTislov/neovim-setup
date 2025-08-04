@@ -18,6 +18,6 @@ vim.g.have_nerd_font = true
 
 require 'options'
 require 'keymaps'
-require 'kickstart.autocmds.yank-highlight'
+require 'plugins.autocmds.yank-highlight'
 require 'lazy-install'
 require 'lazy-plugins'

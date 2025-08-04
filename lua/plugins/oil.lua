@@ -49,7 +49,8 @@ return {
       -- -- See :help oil-actions for a list of all available actions
       keymaps = {
         ['<C-h>'] = false,
-        ['<C-l>'] = { 'actions.select', mode = 'n' },
+        ['<C-l>'] = false,
+        ['<S-l>'] = { 'actions.select', mode = 'n' },
       },
       view_options = {
         show_hidden = true,
@@ -72,9 +73,9 @@ return {
           { 'name', 'asc' },
         },
         -- Customize the highlight group for the file name
-        highlight_filename = function(entry, is_hidden, is_link_target, is_link_orphan)
-          return nil
-        end,
+        -- highlight_filename = function(entry, is_hidden, is_link_target, is_link_orphan)
+        --   return nil
+        -- end,
       },
       -- -- Extra arguments to pass to SCP when moving/copying files over SSH
       -- extra_scp_args = {},
@@ -119,9 +120,9 @@ return {
         -- How to open the preview window "load"|"scratch"|"fast_scratch"
         preview_method = 'fast_scratch',
         -- A function that returns true to disable preview on a file e.g. to avoid lag
-        disable_preview = function(filename)
-          return false
-        end,
+        -- disable_preview = function(filename)
+        --   return false
+        -- end,
         -- Window-local options to use for preview window buffers
         win_options = {},
       },

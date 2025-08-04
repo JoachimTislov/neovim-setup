@@ -4,6 +4,8 @@ return { -- Highlight, edit, and navigate code
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
+    -- ~/local/share/nvim/lazy/nvim-treesitter/
+    -- folder: /usr/share/nvim/runtime/parser/*name of parser*
     ensure_installed = {
       'go',
       'bash',
@@ -26,6 +28,7 @@ return { -- Highlight, edit, and navigate code
       --  If you are experiencing weird indenting issues, add the language to
       --  the list of additional_vim_regex_highlighting and disabled languages for indent.
       additional_vim_regex_highlighting = { 'ruby' },
+      disable = { 'markdown' },
     },
     indent = { enable = true, disable = { 'ruby' } },
   },
@@ -36,7 +39,10 @@ return { -- Highlight, edit, and navigate code
   -- Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
   config = function(_, opts)
     vim.filetype.add {
-      extension = { rasi = 'rasi' },
+      extension = {
+        rasi = 'rasi',
+        lua = 'lua',
+      },
       pattern = {
         ['.*/waybar/config'] = 'jsonc',
         ['.*/mako/config'] = 'dosini',
