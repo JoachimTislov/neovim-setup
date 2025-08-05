@@ -1,11 +1,13 @@
-return { -- Highlight, edit, and navigate code
+return {
   'nvim-treesitter/nvim-treesitter',
+  -- Uncomment below to get latest release (broken last time I tried)
+  -- lazy = false,
+  -- branch = 'main',
+  branch = 'master',
   build = ':TSUpdate',
-  main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-  -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
-    -- ~/local/share/nvim/lazy/nvim-treesitter/
-    -- folder: /usr/share/nvim/runtime/parser/*name of parser*
+    -- ~/.local/share/nvim/lazy/nvim-treesitter/parser
+    sync_install = true,
     ensure_installed = {
       'go',
       'bash',
@@ -14,13 +16,12 @@ return { -- Highlight, edit, and navigate code
       'html',
       'lua',
       'luadoc',
-      'markdown',
-      'markdown_inline',
+      -- 'markdown',
+      -- 'markdown_inline',
       'query',
       'vim',
       'vimdoc',
     },
-    -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
       enable = true,
@@ -30,7 +31,10 @@ return { -- Highlight, edit, and navigate code
       additional_vim_regex_highlighting = { 'ruby' },
       disable = { 'markdown' },
     },
-    indent = { enable = true, disable = { 'ruby' } },
+    indent = {
+      enable = true,
+      disable = { 'ruby' },
+    },
   },
   -- There are additional nvim-treesitter modules that you can use to interact
   -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -41,7 +45,8 @@ return { -- Highlight, edit, and navigate code
     vim.filetype.add {
       extension = {
         rasi = 'rasi',
-        -- lua = 'lua',
+        lua = 'lua',
+        vim = 'vim',
       },
       pattern = {
         ['.*/waybar/config'] = 'jsonc',

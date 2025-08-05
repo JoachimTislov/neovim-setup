@@ -6,21 +6,18 @@ return {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     { 'j-hui/fidget.nvim', opts = {} },
     'saghen/blink.cmp',
-    {
-      'folke/lazydev.nvim',
-      ft = 'lua',
-      opts = {
-        library = {
-          -- Load luvit types when the `vim.uv` word is found
-          { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-        },
-      },
-    },
   },
   config = function()
     require 'config.autocmds.lsp-attach'
     require 'config.diagnostics'
 
+    local vue_plugin = {
+      name = '@vue/typescript-plugin',
+      location = vim.fn.expand '$MASON/packages/vue-language-server/node_modules/@vue/language-server',
+      languages = { 'vue' },
+      confignamespace = 'typescript',
+    }
+    local filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' }
     local capabilities = require('blink.cmp').get_lsp_capabilities()
     local servers = {
       -- clangd = {},
@@ -37,17 +34,14 @@ return {
         },
       },
       pyright = {},
+      -- Not sure why but i experienced alot of issues with the vtsls solution for vue projects
+      -- textDocument/highlight error -32603, Typescript versions issues ...
       vtsls = {
         settings = {
           vtsls = {
             tsserver = {
               globalplugins = {
-                {
-                  name = '@vue/typescript-plugin',
-                  location = vim.fn.expand '$mason/packages/vue-language-server/node_modules/@vue/language-server',
-                  languages = { 'vue' },
-                  confignamespace = 'typescript',
-                },
+                vue_plugin,
               },
             },
           },
@@ -60,13 +54,20 @@ return {
             },
           },
         },
-        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        filetypes = filetypes,
       },
       -- setup vue: https://github.com/vuejs/language-tools/wiki/neovim
       vue_ls = {},
       -- some languages (like typescript) have entire language plugins that can be useful:
       --    https://github.com/pmizio/typescript-tools.nvim
-      ts_ls = {},
+      -- ts_ls = {
+      --   init_options = {
+      --     plugins = {
+      --       vue_plugin,
+      --     },
+      --   },
+      --   filetypes = filetypes,
+      -- },
       bashls = {},
       jsonls = {},
       cssls = {},
@@ -97,17 +98,17 @@ return {
         },
       },
     }
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      'stylua',
-      'prettierd',
-      'shfmt',
-      'rustywind',
-      'clang-format',
-      'jq',
-    })
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
+    require('mason-tool-installer').setup {
+      ensure_installed = vim.list_extend(vim.tbl_keys(servers), {
+        -- { 'vue_ls', version = '3.0.4' },
+        'stylua',
+        'prettierd',
+        'shfmt',
+        'rustywind',
+        'clang-format',
+        'jq',
+      }),
+    }
     for name, config in pairs(servers) do
       config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
       vim.lsp.config(name, config)

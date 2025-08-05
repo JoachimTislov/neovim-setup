@@ -3,6 +3,7 @@ vim.opt.tabstop = 2 -- Number of visual spaces per tab
 vim.opt.softtabstop = 2 -- Spaces inserted when pressing Tab
 vim.opt.shiftwidth = 2 -- Spaces used for auto-indent
 vim.opt.expandtab = true -- Use spaces instead of tab characters
+-- vim.o.filetype
 
 -- Make line numbers default
 vim.o.number = true
