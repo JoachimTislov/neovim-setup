@@ -36,38 +36,68 @@ return {
       pyright = {},
       -- Not sure why but i experienced alot of issues with the vtsls solution for vue projects
       -- textDocument/highlight error -32603, Typescript versions issues ...
-      vtsls = {
-        settings = {
-          vtsls = {
-            tsserver = {
-              globalplugins = {
-                vue_plugin,
-              },
-            },
-          },
-          typescript = {
-            preferences = {
-              -- https://github.com/lazyvim/lazyvim/discussions/1124
-              includecompletionsformoduleexports = true,
-              includecompletionsforimportstatements = true,
-              importmodulespecifier = 'non-relative',
-            },
-          },
-        },
-        filetypes = filetypes,
-      },
-      -- setup vue: https://github.com/vuejs/language-tools/wiki/neovim
-      vue_ls = {},
-      -- some languages (like typescript) have entire language plugins that can be useful:
-      --    https://github.com/pmizio/typescript-tools.nvim
-      -- ts_ls = {
-      --   init_options = {
-      --     plugins = {
-      --       vue_plugin,
+      -- vtsls = {
+      --   settings = {
+      --     vtsls = {
+      --       tsserver = {
+      --         globalplugins = {
+      --           vue_plugin,
+      --         },
+      --       },
+      --     },
+      --     typescript = {
+      --       preferences = {
+      --         -- https://github.com/lazyvim/lazyvim/discussions/1124
+      --         includecompletionsformoduleexports = true,
+      --         includecompletionsforimportstatements = true,
+      --         importmodulespecifier = 'non-relative',
+      --       },
       --     },
       --   },
       --   filetypes = filetypes,
       -- },
+      -- -- setup vue: https://github.com/vuejs/language-tools/wiki/neovim
+      vue_ls = {
+        on_init = function(client)
+          client.handlers['tsserver/request'] = function(_, result, context)
+            local clients = vim.lsp.get_clients { bufnr = context.bufnr, name = 'ts_ls' }
+            if #clients == 0 then
+              vim.notify('Could not find `vtsls` lsp client, `vue_ls` would not work without it.', vim.log.levels.ERROR)
+              return
+            end
+            local ts_client = clients[1]
+
+            local param = unpack(result)
+            local id, command, payload = unpack(param)
+            ts_client:exec_cmd({
+              title = 'vue_request_forward', -- You can give title anything as it's used to represent a command in the UI, `:h Client:exec_cmd`
+              command = 'typescript.tsserverRequest',
+              arguments = {
+                command,
+                payload,
+              },
+            }, { bufnr = context.bufnr }, function(_, r)
+              local response = r and r.body
+              -- TODO: handle error or response nil here, e.g. logging
+              -- NOTE: Do NOT return if there's an error or no response, just return nil back to the vue_ls to prevent memory leak
+              local response_data = { { id, response } }
+
+              ---@diagnostic disable-next-line: param-type-mismatch
+              client:notify('tsserver/response', response_data)
+            end)
+          end
+        end,
+      },
+      -- some languages (like typescript) have entire language plugins that can be useful:
+      --    https://github.com/pmizio/typescript-tools.nvim
+      ts_ls = {
+        init_options = {
+          plugins = {
+            vue_plugin,
+          },
+        },
+        filetypes = filetypes,
+      },
       bashls = {},
       jsonls = {},
       cssls = {},
@@ -100,7 +130,6 @@ return {
     }
     require('mason-tool-installer').setup {
       ensure_installed = vim.list_extend(vim.tbl_keys(servers), {
-        -- { 'vue_ls', version = '3.0.4' },
         'stylua',
         'prettierd',
         'shfmt',

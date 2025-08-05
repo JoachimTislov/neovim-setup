@@ -31,7 +31,7 @@ vim.diagnostic.config {
 }
 
 -- [lsp(name)]: --> [scope/type/kind]: symbol
-local lsp_symbols = {
+local lsp_symbols_filters = {
   ['lua_ls'] = {
     ['global'] = {
       'require',
@@ -49,20 +49,23 @@ local lsp_symbols = {
 -- Override the handler to filter out unwanted diagnostics
 vim.lsp.handlers['textDocument/publishDiagnostics'] = function(err, result, ctx)
   local client = vim.lsp.get_client_by_id(ctx.client_id)
-  if not result or not client or not lsp_symbols[client.name] then
+  if not result or not client then
     return
   end
 
-  result.diagnostics = vim.tbl_filter(function(diagnostic)
-    for kind, symbols in pairs(lsp_symbols[client.name]) do
-      for _, name in ipairs(symbols) do
-        if diagnostic.message:match(string.format('Undefined %s `%s`', kind, name)) then
-          return false
+  -- Apply filters for certain lsps (mainly for lua_ls)
+  if lsp_symbols_filters[client.name] then
+    result.diagnostics = vim.tbl_filter(function(diagnostic)
+      for kind, symbols in pairs(lsp_symbols_filters[client.name]) do
+        for _, name in ipairs(symbols) do
+          if diagnostic.message:match(string.format('Undefined %s `%s`', kind, name)) then
+            return false
+          end
         end
       end
-    end
-    return true
-  end, result.diagnostics)
+      return true
+    end, result.diagnostics)
+  end
 
   -- Use default handler
   vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
