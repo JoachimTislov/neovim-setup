@@ -6,6 +6,7 @@ return {
     lint.linters_by_ft = lint.linters_by_ft or {}
     lint.linters_by_ft['markdown'] = { 'markdownlint' }
     lint.linters_by_ft['go'] = { 'golangcilint' }
+    lint.linters_by_ft['html'] = { 'htmlhint' }
 
     -- Disable default linters
     lint.linters_by_ft['clojure'] = nil

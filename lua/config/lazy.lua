@@ -1,5 +1,6 @@
 -- :h lazy.nvim.txt
 -- https://github.com/folke/lazy.nvim
+-- https://lazy.folke.io/
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local out = vim.fn.system {
@@ -19,7 +20,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup {
   spec = {
-    { 'NMAC427/guess-indent.nvim' },
+    -- { 'NMAC427/guess-indent.nvim' },
+    { 'sindrets/diffview.nvim' }, -- https://github.com/sindrets/diffview.nvim
     { import = 'plugins' },
   },
   change_detection = {

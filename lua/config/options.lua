@@ -1,8 +1,12 @@
 -- Formatting
-vim.opt.tabstop = 2 -- Number of visual spaces per tab
-vim.opt.softtabstop = 2 -- Spaces inserted when pressing Tab
-vim.opt.shiftwidth = 2 -- Spaces used for auto-indent
-vim.opt.expandtab = true -- Use spaces instead of tab characters
+vim.o.tabstop = 2 -- Number of visual spaces per tab
+vim.o.softtabstop = 2 -- Spaces inserted when pressing Tab
+vim.o.shiftwidth = 2 -- Spaces used for auto-indent
+vim.o.expandtab = true -- Use spaces instead of tab characters
+vim.o.winborder = 'rounded'
+
+vim.o.termguicolors = true -- enabled to use silkcircuit theme on launch
+vim.o.background = 'dark'
 -- vim.o.filetype
 
 -- Make line numbers default
