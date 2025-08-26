@@ -23,7 +23,9 @@ return {
     local servers = {
       'gopls',
       'lua_ls',
-      -- 'harper_ls',
+      'jdtls',
+      -- 'harper_ls', -- annoying
+      -- 'codebook', -- annoying
       -- 'vtsls',
       'ts_ls',
       'bashls',
@@ -42,6 +44,8 @@ return {
         'rustywind',
         'clang-format',
         'jq',
+        'google-java-format',
+        'black',
       }),
     }
 

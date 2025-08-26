@@ -5,6 +5,25 @@ vim.o.shiftwidth = 2 -- Spaces used for auto-indent
 vim.o.expandtab = true -- Use spaces instead of tab characters
 vim.o.winborder = 'rounded'
 
+function _G.get_tabline()
+  local s = ''
+  for tabnr = 1, vim.fn.tabpagenr '$' do
+    local winnr = vim.fn.tabpagewinnr(tabnr)
+    local bufnr = vim.fn.tabpagebuflist(tabnr)[winnr]
+    local bufname = vim.api.nvim_buf_get_name(bufnr)
+    local short_name = bufname ~= '' and vim.fn.fnamemodify(bufname, ':t') or '[No Name]'
+    if tabnr == vim.fn.tabpagenr() then
+      s = s .. '%#TabLineSel#' .. short_name .. ' '
+    else
+      s = s .. '%#TabLine#' .. short_name .. ' '
+    end
+  end
+  s = s .. '%#TabLineFill#'
+  return s
+end
+
+vim.o.tabline = '%!v:lua.get_tabline()'
+
 vim.o.termguicolors = true -- enabled to use silkcircuit theme on launch
 vim.o.background = 'dark'
 -- vim.o.filetype
@@ -12,6 +31,8 @@ vim.o.background = 'dark'
 -- Make line numbers default
 vim.o.number = true
 vim.o.relativenumber = true
+
+-- vim.o.autochdir = false
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'

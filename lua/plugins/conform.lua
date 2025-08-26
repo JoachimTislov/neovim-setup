@@ -26,6 +26,8 @@ return { -- Autoformat
       typescript = { 'prettierd' },
       vue = { 'prettierd' },
       bash = { 'shfmt' },
+      java = { 'google-java-format' },
+      python = { 'black' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
     },

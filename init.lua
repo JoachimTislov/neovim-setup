@@ -12,8 +12,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
-vim.g.theme = 'silkcircuit'
--- vim.g.themeType = 'tokyonight-storm'
+-- Theme is specified by two variables to also enable the actual theme on start up
+vim.g.theme = 'rose-pine'
+vim.g.themeType = 'rose-pine-moon'
 
 require 'config.options'
 require 'config.keymaps'

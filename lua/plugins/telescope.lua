@@ -60,26 +60,26 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>st', function()
       builtin.colorscheme { enable_preview = true }
     end, { desc = '[S]elect [T]heme' })
+    vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch in current [B]uffers' })
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>sf', function()
-      builtin.find_files { hidden = true }
-    end, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
     vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-    vim.keymap.set('n', '<leader>sc', function()
-      builtin.find_files { cwd = '~/dotfiles' }
-    end, { desc = '[S]earch in dotfiles' })
 
-    vim.keymap.set('n', '<leader>sn', function()
-      builtin.find_files { cwd = vim.fn.stdpath 'config' }
-    end, { desc = '[S]earch [N]eovim files' })
+    local function find_files(key, dir, desc, hidden)
+      vim.keymap.set('n', key, function()
+        builtin.find_files { cwd = dir, hidden = hidden }
+      end, { desc = desc })
+    end
+    find_files('<leader>sc', '~/dotfiles', '[S]earch in dotfiles')
+    find_files('<leader>sn', vim.fn.stdpath 'config', '[S]earch [N]eovim files')
+    find_files('<leader>su', '~', '[S]earch in [U]ser home', true)
+    find_files('<leader>sf', vim.fn.getcwd(), '[S]earch [F]iles', true)
 
-    vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch in current [B]uffers' })
-    vim.keymap.set('n', '<leader>n', '<cmd>Telescope notify<CR>', { desc = 'View past notifications' })
+    -- vim.keymap.set('n', '<leader>n', '<cmd>Telescope notify<CR>', { desc = 'View past notifications' })
 
     -- Slightly advanced example of overriding default behavior and theme
     vim.keymap.set('n', '<leader>/', function()

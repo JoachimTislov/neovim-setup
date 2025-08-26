@@ -21,6 +21,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup {
   spec = {
     -- { 'NMAC427/guess-indent.nvim' },
+    { 'nvim-java/nvim-java' },
     { 'sindrets/diffview.nvim' }, -- https://github.com/sindrets/diffview.nvim
     { import = 'plugins' },
   },

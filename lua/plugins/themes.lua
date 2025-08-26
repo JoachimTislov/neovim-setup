@@ -29,6 +29,11 @@ local themes = {
   ['rose-pine'] = {
     src = 'rose-pine/neovim',
     setup = true,
+    opts = {
+      styles = {
+        transparency = true,
+      },
+    },
   },
   fox = {
     src = 'EdenEast/nightfox.nvim',
