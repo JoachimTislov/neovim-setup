@@ -24,6 +24,7 @@ return {
       'gopls',
       'lua_ls',
       'jdtls',
+      'svelte-language-server',
       -- 'harper_ls', -- annoying
       -- 'codebook', -- annoying
       -- 'vtsls',
