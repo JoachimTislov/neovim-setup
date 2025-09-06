@@ -29,7 +29,7 @@ return {
       },
       auto_fold = false,
       auto_insert_mode = false,
-      pgompts = {
+      prompts = {
         NiceInstructions = {
           prompt = 'Explain this code like I am a beginner.',
           mapping = '<leader>cin',

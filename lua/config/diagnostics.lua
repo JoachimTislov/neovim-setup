@@ -44,6 +44,7 @@ local lsp_symbols_filters = {
       'pairs',
       'pcall',
       'os_uname',
+      'os',
     },
     ['field'] = {
       'fs_stat',

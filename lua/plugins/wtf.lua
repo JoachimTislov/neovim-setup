@@ -7,18 +7,12 @@ return {
   },
   opts = {
     -- Directory for storing chat files
-    chat_dir = vim.fn.stdpath('data'):gsub('/$', '') .. '/wtf/chats',
     popup_type = 'popup', -- horizontal, vertical
     provider = 'copilot', -- deepseek, gemini, grok, ollama
     providers = {},
     language = 'english',
     -- additional_instructions = "Start the reply with 'OH HAI THERE'",
     search_engine = 'google', -- duck_duck_go, stack_overflow, github, phind, perplexity
-    hooks = {
-      request_started = nil,
-      request_finished = nil,
-    },
-    winhighlight = 'Normal:Normal,FloatBorder:FloatBorder',
   },
   keys = {
     {

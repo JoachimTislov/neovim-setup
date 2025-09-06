@@ -1,4 +1,5 @@
 -- https://github.com/nvim-telescope/telescope.nvim
+-- https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#fused-layout
 return { -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
@@ -35,24 +36,44 @@ return { -- Fuzzy Finder (files, lsp, etc)
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
   config = function()
-    require('telescope').setup {
-      -- defaults = {
-      --   mappings = {
-      --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-      --   },
-      -- },
-      -- pickers = {}
-      -- extensions = {
-      --   ['ui-select'] = {
-      --     require('telescope.themes').get_dropdown(),
-      --   },
-      -- },
+    local ivy = {
+      theme = 'ivy',
+      hidden = true,
+      layout_config = {
+        height = 0.45,
+        preview_width = 0.65,
+      },
     }
-    -- Enable Telescope extensions if they are installed
+    require('telescope').setup {
+      -- TODO: Set ivy as default theme for all pickers with one line in the settings
+      -- This is annoying to repeat for every picker
+      pickers = {
+        find_files = ivy,
+        buffers = ivy,
+        builtin = ivy,
+        git_files = ivy,
+        oldfiles = ivy,
+        help_tags = ivy,
+        keymaps = ivy,
+        live_grep = ivy,
+        diagnostics = ivy,
+        lsp_document_symbols = ivy,
+        lsp_dynamic_workspace_symbols = ivy,
+        lsp_definitions = ivy,
+        lsp_references = ivy,
+        colorscheme = ivy,
+      },
+      extensions = {
+        ['ui-select'] = {
+          require('telescope.themes').get_ivy(ivy),
+        },
+      },
+    }
     pcall(require('telescope').load_extension, 'fzf')
-    pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'projects')
+    pcall(require('telescope').load_extension, 'ui-select')
 
+    local nmap = require('utils').nmap
     local builtin = require 'telescope.builtin'
     local function live_grep(dir, desc, open_files)
       if dir == '' then
@@ -68,7 +89,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
       }
     end
     local function keymap_grep(dir, key, desc, open_files)
-      vim.keymap.set('n', '<leader>sg' .. key, function()
+      nmap('<leader>sg' .. key, function()
         live_grep(dir, desc, open_files)
       end, { desc = desc })
     end
@@ -78,20 +99,20 @@ return { -- Fuzzy Finder (files, lsp, etc)
     keymap_grep('~/.config/nvim', 'n', '[N]eovim')
     keymap_grep('', 'o', '[O]pen files', true)
 
-    vim.keymap.set('n', '<leader>st', function()
-      builtin.colorscheme { enable_preview = true }
+    nmap('<leader>st', function()
+      builtin.colorscheme { enable_preview = true, previewer = false }
     end, { desc = '[S]elect [T]heme' })
-    vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch in current [B]uffers' })
-    vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-    vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-    vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-    vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+    nmap('<leader>sb', builtin.buffers, { desc = '[S]earch in current [B]uffers' })
+    nmap('<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+    nmap('<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+    nmap('<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+    nmap('<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+    nmap('<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+    nmap('<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+    nmap('<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 
     local function find_files(key, dir, desc, hidden)
-      vim.keymap.set('n', key, function()
+      nmap(key, function()
         builtin.find_files { cwd = dir, hidden = hidden }
       end, { desc = desc })
     end
@@ -100,17 +121,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
     find_files('<leader>sn', vim.fn.stdpath 'config', '[S]earch [N]eovim files')
     find_files('<leader>sf', vim.fn.getcwd(), '[S]earch [F]iles', true)
 
-    vim.keymap.set('n', '<leader>sp', '<cmd>Telescope projects<cr>', { desc = '[S]earch [P]rojects' })
-    -- vim.keymap.set('n', '<leader>n', '<cmd>Telescope notify<CR>', { desc = 'View past notifications' })
-
-    -- Slightly advanced example of overriding default behavior and theme
-    vim.keymap.set('n', '<leader>/', function()
-      -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-      builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = false,
-      })
-    end, { desc = '[/] Fuzzily search in current buffer' })
+    nmap('<leader>sp', '<cmd>Telescope projects theme=ivy<cr>', { desc = '[S]earch [P]rojects' })
+    -- nmap('<leader>n', '<cmd>Telescope notify<CR>', { desc = 'View past notifications' })
 
     -- It's also possible to pass additional configuration options.
     --  See `:help telescope.builtin.live_grep()` for information about particular keys

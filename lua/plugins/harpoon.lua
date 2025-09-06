@@ -6,6 +6,7 @@ return {
   opts = {},
   config = function()
     local harpoon = require 'harpoon'
+    local nmap = require('utils').nmap
 
     harpoon:setup {
       settings = {
@@ -15,12 +16,12 @@ return {
 
     -- Initialize
     for i, item in pairs(harpoon:list().items) do
-      vim.keymap.set('n', '<leader>' .. i, function()
+      nmap('<leader>' .. i, function()
         harpoon:list():select(i)
       end, { desc = 'Go to ' .. item.value })
     end
 
-    vim.keymap.set('n', '<leader>h', function()
+    nmap('<leader>h', function()
       harpoon:list():add()
       local len = harpoon:list():length()
       require('which-key').add {
@@ -34,7 +35,7 @@ return {
       }
     end, { desc = 'Harpoon add' })
 
-    vim.keymap.set('n', '<C-e>', function()
+    nmap('<C-e>', function()
       local old_list = harpoon:list()
       local old_len = old_list:length()
 
@@ -77,10 +78,10 @@ return {
         }
       end
     end)
-    vim.keymap.set('n', '<C-S-j>', function()
+    nmap('<C-S-j>', function()
       harpoon:list():prev()
     end)
-    vim.keymap.set('n', '<C-S-k>', function()
+    nmap('<C-S-k>', function()
       harpoon:list():next()
     end)
   end,
