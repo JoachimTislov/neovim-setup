@@ -4,6 +4,26 @@ return { -- Fuzzy Finder (files, lsp, etc)
   event = 'VimEnter',
   dependencies = {
     'nvim-lua/plenary.nvim',
+    {
+      -- TODO: Filter the projects manually instead of using exclude_dirs
+      -- Note that project.nvim does not integrate with oil.nvim
+      'ahmedkhalf/project.nvim',
+      config = function()
+        require('project_nvim').setup {
+          detection_methods = { 'pattern' },
+          patterns = { '.git', 'Makefile', 'package.json' },
+          show_hidden = true,
+          exclude_dirs = { '~/.config/nvim' },
+        }
+      end,
+      --[[
+          N   I   Action
+          f <c-f> find_project_files
+          s <c-s> search_in_project_files
+          r <c-r> recent_project_files
+          w <c-w> change_working_directory
+        ]]
+    },
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'make',
@@ -31,11 +51,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension, 'projects')
 
     local builtin = require 'telescope.builtin'
     local function live_grep(dir, desc, open_files)
       if dir == '' then
-        dir = vim.fn.getcwd()
+        dir = require('oil').get_current_dir() -- vim.fn.getcwd()
       end
       builtin.live_grep {
         cwd = dir,
@@ -75,10 +96,11 @@ return { -- Fuzzy Finder (files, lsp, etc)
       end, { desc = desc })
     end
     find_files('<leader>sc', '~/dotfiles', '[S]earch in dotfiles')
-    find_files('<leader>sn', vim.fn.stdpath 'config', '[S]earch [N]eovim files')
     find_files('<leader>su', '~', '[S]earch in [U]ser home', true)
+    find_files('<leader>sn', vim.fn.stdpath 'config', '[S]earch [N]eovim files')
     find_files('<leader>sf', vim.fn.getcwd(), '[S]earch [F]iles', true)
 
+    vim.keymap.set('n', '<leader>sp', '<cmd>Telescope projects<cr>', { desc = '[S]earch [P]rojects' })
     -- vim.keymap.set('n', '<leader>n', '<cmd>Telescope notify<CR>', { desc = 'View past notifications' })
 
     -- Slightly advanced example of overriding default behavior and theme

@@ -6,5 +6,10 @@ return {
     'sindrets/diffview.nvim',
     'nvim-telescope/telescope.nvim',
   },
-  opts = {},
+  opts = {
+    kind = 'floating',
+  },
+  config = function(_, opts)
+    require('neogit').setup(opts)
+  end,
 }

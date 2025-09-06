@@ -20,7 +20,7 @@ return {
       end, { desc = 'Go to ' .. item.value })
     end
 
-    vim.keymap.set('n', '<leader>a', function()
+    vim.keymap.set('n', '<leader>h', function()
       harpoon:list():add()
       local len = harpoon:list():length()
       require('which-key').add {

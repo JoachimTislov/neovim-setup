@@ -5,6 +5,9 @@ vim.o.shiftwidth = 2 -- Spaces used for auto-indent
 vim.o.expandtab = true -- Use spaces instead of tab characters
 vim.o.winborder = 'rounded'
 
+-- Remove unreadable path for buffers in tabline
+-- I think this can be simplified
+-- TODO: Remove when tabs are no longer used
 function _G.get_tabline()
   local s = ''
   for tabnr = 1, vim.fn.tabpagenr '$' do
@@ -60,7 +63,7 @@ vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Default 1000
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 160
 
 -- Configure how new splits should be opened
 vim.o.splitright = true

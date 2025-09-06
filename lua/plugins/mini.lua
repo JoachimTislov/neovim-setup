@@ -13,5 +13,8 @@ return { -- Collection of various small independent plugins/modules
     --   return '%2l:%-2v'
     -- end
     --  Check out: https://github.com/echasnovski/mini.nvim
+    local misc = require 'mini.misc'
+    -- misc.setup_auto_root() TODO: test if project.nvim handles this well enough
+    misc.setup_restore_cursor()
   end,
 }

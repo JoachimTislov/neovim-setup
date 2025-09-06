@@ -19,10 +19,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup {
+  -- Spec is a list of plugins with default options
   spec = {
     -- { 'NMAC427/guess-indent.nvim' },
+    { 'folke/snacks.nvim', priority = 1000, lazy = false, opts = {} },
+    { 'github/copilot.vim' }, -- TODO: Replace with copilot.lua: https://github.com/zbirenbaum/copilot.lua with https://github.com/zbirenbaum/copilot-cmp
+    { 'meznaric/key-analyzer.nvim', opts = {} },
     { 'nvim-java/nvim-java' },
-    { 'sindrets/diffview.nvim' }, -- https://github.com/sindrets/diffview.nvim
+    { 'sindrets/diffview.nvim' }, -- Duplicate of diffview in neogit dependencies
+    { 'stevearc/overseer.nvim', opts = {} },
     { import = 'plugins' },
   },
   change_detection = {
