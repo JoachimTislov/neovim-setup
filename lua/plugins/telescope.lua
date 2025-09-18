@@ -67,6 +67,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
         ['ui-select'] = {
           require('telescope.themes').get_ivy(ivy),
         },
+        -- ['projects'] = {
+        --   require('telescope.themes').get_ivy(ivy),
+        -- },
       },
     }
     pcall(require('telescope').load_extension, 'fzf')
@@ -77,7 +80,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     local builtin = require 'telescope.builtin'
     local function live_grep(dir, desc, open_files)
       if dir == '' then
-        dir = require('oil').get_current_dir() -- vim.fn.getcwd()
+        dir = vim.fn.getcwd()
       end
       builtin.live_grep {
         cwd = dir,
@@ -113,15 +116,22 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     local function find_files(key, dir, desc, hidden)
       nmap(key, function()
-        builtin.find_files { cwd = dir, hidden = hidden }
+        builtin.find_files { cwd = (dir ~= '' and dir) or vim.fn.getcwd(), hidden = hidden }
       end, { desc = desc })
     end
+    find_files('<leader>sf', '', '[S]earch [F]iles', true)
     find_files('<leader>sc', '~/dotfiles', '[S]earch in dotfiles')
     find_files('<leader>su', '~', '[S]earch in [U]ser home', true)
-    find_files('<leader>sn', vim.fn.stdpath 'config', '[S]earch [N]eovim files')
-    find_files('<leader>sf', vim.fn.getcwd(), '[S]earch [F]iles', true)
+    find_files('<leader>sn', vim.fn.stdpath 'config', '[S]earch [N]eovim')
+    find_files('<leader>sl', '~/.local/share/nvim/lazy', '[S]earch [L]azy')
+    find_files('<leader>sm', vim.fn.expand '$MASON', '[S]earch [M]ason packages')
 
-    nmap('<leader>sp', '<cmd>Telescope projects theme=ivy<cr>', { desc = '[S]earch [P]rojects' })
+    nmap('<leader>sp', function()
+      require('telescope').extensions.projects.projects {
+        layout_config = { height = 0.3, width = 0.4 },
+      }
+    end, { desc = '[S]earch [P]rojects' })
+    -- nmap('<leader>sp', telescope.extensions.projects(), { desc = '[S]earch [P]rojects' })
     -- nmap('<leader>n', '<cmd>Telescope notify<CR>', { desc = 'View past notifications' })
 
     -- It's also possible to pass additional configuration options.

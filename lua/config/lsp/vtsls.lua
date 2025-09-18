@@ -19,5 +19,4 @@ return {
     },
   },
   filetypes = vue.filetypes,
-  child = 'vue_ls',
 }

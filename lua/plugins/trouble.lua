@@ -20,7 +20,7 @@ return {
       desc = 'Symbols',
     },
     {
-      '<leader>cl',
+      '<leader>xl',
       '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
       desc = 'LSP Definitions / references / ...',
     },

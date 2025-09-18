@@ -1,7 +1,6 @@
 return {
-  'neovim/nvim-lspconfig',
+  'mason-org/mason.nvim',
   dependencies = {
-    { 'mason-org/mason.nvim', opts = {} },
     'mason-org/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     {
@@ -16,7 +15,9 @@ return {
     },
     'saghen/blink.cmp',
   },
+  lazy = true,
   config = function()
+    require('mason').setup()
     require 'config.autocmds.lsp-attach'
     require 'config.diagnostics'
 
@@ -24,23 +25,28 @@ return {
       'gopls',
       'lua_ls',
       'jdtls',
-      'svelte-language-server',
+      'svelte',
+      'tailwindcss',
       -- 'harper_ls', -- annoying
       -- 'codebook', -- annoying
-      -- 'vtsls',
+      -- 'vtsls', -- not working well ... alot of errors, provider appears to be missing features
       'ts_ls',
+      'vue_ls',
       'bashls',
-      -- 'jsonls',
+      'jsonls',
       'cssls',
       'pyright',
       'clangd',
       'rust_analyzer',
+      'html-lsp',
+      'eslint-lsp',
     }
 
     require('mason-tool-installer').setup {
-      ensure_installed = vim.list_extend(servers, {
+      ensure_installed = vim.list_extend(vim.deepcopy(servers), {
         'stylua',
         'prettierd',
+        'prettier',
         'shfmt',
         'rustywind',
         'clang-format',
@@ -52,12 +58,7 @@ return {
 
     local utils = require 'utils'
     for _, name in ipairs(servers) do
-      local lsp = utils.safe_require('config.lsp.' .. name)
-      if lsp.child then
-        local child_lsp = utils.safe_require('config.lsp.' .. lsp.child)
-        utils.setup_ls(lsp.child, child_lsp[name] or {})
-      end
-      utils.setup_ls(name, lsp)
+      utils.setup_ls(name, utils.safe_require('config.lsp.' .. name))
     end
   end,
 }

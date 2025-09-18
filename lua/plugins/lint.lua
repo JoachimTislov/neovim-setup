@@ -7,6 +7,7 @@ return {
     lint.linters_by_ft['markdown'] = { 'markdownlint' }
     lint.linters_by_ft['go'] = { 'golangcilint' }
     lint.linters_by_ft['html'] = { 'htmlhint' }
+    -- lint.linters_by_ft['vue'] = { 'cspell' }
     -- lint.linters_by_ft['java'] = { 'checkstyle' }
 
     -- Disable default linters

@@ -1,74 +1,19 @@
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
-    -- Creates a beautiful debugger UI
-    'rcarriga/nvim-dap-ui',
-
-    -- Required dependency for nvim-dap-ui
-    'nvim-neotest/nvim-nio',
-
-    -- Installs the debug adapters for you
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-
-    -- Add your own debuggers here
+    'rcarriga/nvim-dap-ui',
+    'nvim-neotest/nvim-nio', -- dependency of dap-ui
     'leoluz/nvim-dap-go',
+    'jbyuki/one-small-step-for-vimkind',
   },
-  keys = {
-    {
-      '<F5>',
-      function()
-        require('dap').continue()
-      end,
-      desc = 'Debug: Start/Continue',
-    },
-    {
-      '<F1>',
-      function()
-        require('dap').step_into()
-      end,
-      desc = 'Debug: Step Into',
-    },
-    {
-      '<F2>',
-      function()
-        require('dap').step_over()
-      end,
-      desc = 'Debug: Step Over',
-    },
-    {
-      '<F3>',
-      function()
-        require('dap').step_out()
-      end,
-      desc = 'Debug: Step Out',
-    },
-    {
-      '<leader>b',
-      function()
-        require('dap').toggle_breakpoint()
-      end,
-      desc = 'Debug: Toggle Breakpoint',
-    },
-    {
-      '<leader>B',
-      function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-      end,
-      desc = 'Debug: Set Breakpoint',
-    },
-    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    {
-      '<F7>',
-      function()
-        require('dapui').toggle()
-      end,
-      desc = 'Debug: See last session result.',
-    },
-  },
+  lazy = false,
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    local widgets = require 'dap.ui.widgets'
+    local nmap = require('utils').nmap
 
     require('mason-nvim-dap').setup {
       automatic_installation = true,
@@ -81,7 +26,34 @@ return {
       },
     }
 
+    nmap('<leader>dl', function()
+      require('osv').launch { port = 8086 }
+    end, { desc = 'Debug: Launch lua debug server', noremap = true })
+    nmap('<leader>dh', widgets.hover, { desc = 'Debug: Hover', noremap = true })
+    nmap('<leader>dp', widgets.preview, { desc = 'Debug: Preview', noremap = true })
+    nmap('<leader>df', function()
+      widgets.centered_float(widgets.frames)
+    end, { desc = 'Debug: View Frames', noremap = true })
+    nmap('<leader>ds', function()
+      widgets.centered_float(widgets.scopes)
+    end, { desc = 'Debug: View Scopes', noremap = true })
+    nmap('<leader>dc', dap.continue, { desc = 'Debug: Continue', noremap = true })
+    nmap('<leader>dd', dap.disconnect, { desc = 'Debug: Disconnect', noremap = true })
+    nmap('<leader>dx', dap.terminate, { desc = 'Debug: Terminate', noremap = true })
+    nmap('<leader>dp', dap.pause, { desc = 'Debug: Pause', noremap = true })
+    nmap('<leader>di', dap.step_into, { desc = 'Debug: Step into', noremap = true })
+    nmap('<leader>do', dap.step_over, { desc = 'Debug: Step over', noremap = true })
+    nmap('<leader>de', dap.step_out, { desc = 'Debug: Step out', noremap = true })
+    nmap('<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle breakpoint', noremap = true })
+    nmap('<leader>dr', dap.clear_breakpoints, { desc = 'Debug: Clear breakpoints', noremap = true })
+    nmap('<leader>dB', function()
+      dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+    end, { desc = 'Debug: Set Breakpoint', noremap = true })
+    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+    nmap('<leader>dt', dapui.toggle, { desc = 'Debug: See last session result.', noremap = true })
+
     -- For more information, see |:help nvim-dap-ui|
+    --- @diagnostic disable: missing-fields
     dapui.setup {
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {
@@ -98,6 +70,18 @@ return {
         },
       },
     }
+
+    dap.configurations.lua = {
+      {
+        type = 'nlua',
+        request = 'attach',
+        name = 'Attach to running Neovim instance',
+      },
+    }
+
+    dap.adapters.nlua = function(callback, config)
+      callback { type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 }
+    end
 
     -- Change breakpoint icons
     -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })

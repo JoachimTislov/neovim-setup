@@ -1,12 +1,29 @@
--- some languages (like typescript) have entire language plugins that can be useful:
---    https://github.com/pmizio/typescript-tools.nvim
 local vue = require 'config.vue'
 return {
+  on_attach = function(client, bufnr)
+    require('workspace-diagnostics').populate_workspace_diagnostics(client, bufnr)
+  end,
   init_options = {
     plugins = {
       vue.plugin,
     },
   },
+  settings = {
+    typescript = {
+      tsserver = {
+        useSyntaxServer = false,
+      },
+      inlayHints = {
+        includeInlayParameterNameHints = 'all',
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+  },
   filetypes = vue.filetypes,
-  child = 'vue_ls',
 }

@@ -7,14 +7,16 @@ return {
     },
     build = 'make tiktoken',
     opts = {
-      model = 'gpt-4.1',
+      model = 'claude-sonnet-4',
       temperature = 0, -- Lower = focused, higher = creative
       sticky = {
-        '#buffers',
+        -- '#buffer',
       },
-      -- highlight_headers = false,
-      highlight = {
-        extmark = true,
+      highlight_headers = false,
+      auto_fold = true,
+      auto_insert_mode = false,
+      mappings = {
+        reset = false,
       },
       headers = {
         user = ' ',
@@ -24,23 +26,8 @@ return {
       separator = '━━',
       window = {
         layout = 'vertical', -- 'vertical', 'horizontal', 'float', 'replace'
-        width = 0.5, -- 50% of screen width
+        -- width = 0.5, -- 50% of screen width
         border = 'solid', -- 'single', 'double', 'rounded', 'solid'
-      },
-      auto_fold = false,
-      auto_insert_mode = false,
-      prompts = {
-        NiceInstructions = {
-          prompt = 'Explain this code like I am a beginner.',
-          mapping = '<leader>cin',
-          system_prompt = 'You are a nice coding tutor, so please respond in a friendly and helpful manner.',
-        },
-        MyCustomPrompt = {
-          prompt = 'Explain how it works.',
-          system_prompt = 'You are very good at explaining stuff',
-          mapping = '<leader>cim',
-          description = 'My custom prompt description',
-        },
       },
       -- https://github.com/CopilotC-Nvim/CopilotChat.nvim?tab=readme-ov-file#functions
       functions = {},

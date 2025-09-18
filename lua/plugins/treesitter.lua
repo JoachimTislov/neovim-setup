@@ -5,6 +5,8 @@ return {
   -- branch = 'main',
   branch = 'master',
   build = ':TSUpdate',
+  lazy = true,
+  event = { 'BufEnter' },
   opts = {
     -- ~/.local/share/nvim/lazy/nvim-treesitter/parser
     sync_install = true,
@@ -46,6 +48,7 @@ return {
         rasi = 'rasi',
         lua = 'lua',
         vim = 'vim',
+        go = 'go',
       },
       pattern = {
         ['.*/waybar/config'] = 'jsonc',

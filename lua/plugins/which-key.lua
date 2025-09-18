@@ -6,6 +6,8 @@ return {
     delay = 200,
     icons = { mappings = vim.g.have_nerd_font },
     spec = {
+      { '<leader>d', group = '[D]ebug' },
+      { '<leader>x', group = 'Trouble' },
       { '<leader>q', group = '[Q]uit' },
       { '<leader>c', group = '[C]opilot' },
       { '<leader>f', group = 'Wt[f]' },

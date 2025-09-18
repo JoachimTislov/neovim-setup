@@ -4,6 +4,7 @@ return {
   branch = 'harpoon2',
   dependencies = { 'nvim-lua/plenary.nvim' },
   opts = {},
+  lazy = true,
   config = function()
     local harpoon = require 'harpoon'
     local nmap = require('utils').nmap

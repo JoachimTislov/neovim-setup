@@ -1,9 +1,9 @@
--- Formatting
 vim.o.tabstop = 2 -- Number of visual spaces per tab
 vim.o.softtabstop = 2 -- Spaces inserted when pressing Tab
 vim.o.shiftwidth = 2 -- Spaces used for auto-indent
 vim.o.expandtab = true -- Use spaces instead of tab characters
 vim.o.winborder = 'rounded'
+vim.o.swapfile = false
 
 -- Remove unreadable path for buffers in tabline
 -- I think this can be simplified
