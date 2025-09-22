@@ -7,6 +7,7 @@ return {
     icons = { mappings = vim.g.have_nerd_font },
     spec = {
       { '<leader>d', group = '[D]ebug' },
+      { '<leader>l', group = '[L]aravel' },
       { '<leader>x', group = 'Trouble' },
       { '<leader>q', group = '[Q]uit' },
       { '<leader>c', group = '[C]opilot' },

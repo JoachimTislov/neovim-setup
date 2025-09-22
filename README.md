@@ -65,6 +65,7 @@ https://github.com/neoclide/coc.nvim?tab=readme-ov-file
 - https://github.com/Exafunction/windsurf.nvim
 - https://github.com/rachartier/tiny-inline-diagnostic.nvim
 - https://github.com/SalOrak/whaler.nvim
+- https://github.com/kkharji/sqlite.lua
 
 #### Pickers
 

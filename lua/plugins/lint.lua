@@ -4,9 +4,11 @@ return {
   config = function()
     local lint = require 'lint'
     lint.linters_by_ft = lint.linters_by_ft or {}
-    lint.linters_by_ft['markdown'] = { 'markdownlint' }
+    -- TODO: Add settings for markdownlint
+    -- lint.linters_by_ft['markdown'] = { 'markdownlint' }
     lint.linters_by_ft['go'] = { 'golangcilint' }
     lint.linters_by_ft['html'] = { 'htmlhint' }
+    lint.linters_by_ft['make'] = { 'checkmake' }
     -- lint.linters_by_ft['vue'] = { 'cspell' }
     -- lint.linters_by_ft['java'] = { 'checkstyle' }
 

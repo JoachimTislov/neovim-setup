@@ -23,6 +23,8 @@ return {
 
     local servers = {
       'gopls',
+      'laravel_ls',
+      'phpactor',
       'lua_ls',
       'jdtls',
       'svelte',
@@ -47,12 +49,18 @@ return {
         'stylua',
         'prettierd',
         'prettier',
+        'pretty-php',
         'shfmt',
         'rustywind',
         'clang-format',
         'jq',
         'google-java-format',
         'black',
+        'checkmake',
+        'golangci-lint',
+        -- 'markdownlint',
+        'htmlhint',
+        -- 'php-cs-fixer',
       }),
     }
 

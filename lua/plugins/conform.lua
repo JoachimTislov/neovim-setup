@@ -19,6 +19,7 @@ return { -- Autoformat
       bash = { 'shfmt' },
       java = { 'google-java-format' },
       python = { 'black' },
+      php = { 'pretty-php' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
     },

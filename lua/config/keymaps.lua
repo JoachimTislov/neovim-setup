@@ -104,6 +104,8 @@ nmap('<leader>ov', '<cmd>vsplit<cr>', { desc = '[O]pen [V]ertical split' })
 nmap('<leader>os', '<cmd>split<cr>', { desc = '[O]pen [S]plit (horisontal)' })
 nmap('<leader>of', '<cmd>enew<cr>', { desc = '[O]pen [F]ile' })
 nmap('<leader>oc', '<cmd>CopilotChatOpen<cr>', { desc = '[O]pen [C]opilot' })
+-- https://github.com/meznaric/key-analyzer.nvim?tab=readme-ov-file
+nmap('<leader>ok', ':KeyAnalyzer ', { desc = 'Open KeyAnalyzer' })
 -- nmap('<leader>od', '<cmd>Dashboard<cr>', { desc = '[D]ashboard' })
 -- nmap('<leader>ot', '<cmd>terminal<cr>', { desc = '[T]erminal' })
 
@@ -135,8 +137,6 @@ nmap('<leader>cl', ':CopilotChatLoad ', { desc = 'Load chat' })
 imap('<S-Tab>', 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
 imap('<C-A-j>', 'copilot#Next()', { expr = true, silent = true, script = true })
 
--- https://github.com/meznaric/key-analyzer.nvim?tab=readme-ov-file
-nmap('<leader>k', ':KeyAnalyzer ', { desc = 'Open KeyAnalyzer' })
 -- https://github.com/stevearc/oil.nvim
 nmap('<S-h>', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
 --  See `<cmd>help hlsearch`
