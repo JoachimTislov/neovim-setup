@@ -89,6 +89,7 @@ nmap('<leader>qf', '<cmd>q!<cr>', { desc = '[Q]uit [F]orce' })
 nmap('<leader>w', '<cmd>w<cr>', { desc = '[W]rite to file' })
 nmap('<leader>r', '<cmd>source<cr>', { desc = '[R]un - Source file' })
 nmap('<leader>m', '<cmd>messages<cr>', { desc = 'View [M]essages' })
+nmap('<leader>n', '<cmd>Noice history<cr>', { desc = '[N]oice history' })
 
 nmap('gd', vim.diagnostic.setloclist, { desc = '[D]iagnostic quickfix list' })
 
@@ -105,22 +106,22 @@ nmap('<leader>os', '<cmd>split<cr>', { desc = '[O]pen [S]plit (horisontal)' })
 nmap('<leader>of', '<cmd>enew<cr>', { desc = '[O]pen [F]ile' })
 nmap('<leader>oc', '<cmd>CopilotChatOpen<cr>', { desc = '[O]pen [C]opilot' })
 -- https://github.com/meznaric/key-analyzer.nvim?tab=readme-ov-file
-nmap('<leader>ok', ':KeyAnalyzer ', { desc = 'Open KeyAnalyzer' })
+nmap('<leader>ok', ':KeyAnalyzer ', { desc = '[O]pen KeyAnalyzer' })
 -- nmap('<leader>od', '<cmd>Dashboard<cr>', { desc = '[D]ashboard' })
 -- nmap('<leader>ot', '<cmd>terminal<cr>', { desc = '[T]erminal' })
 
 -- Save and load copilot chat on exit and enter
-vim.api.nvim_create_autocmd('VimLeavePre', {
-  callback = function()
-    vim.cmd 'CopilotChatSave chat'
-  end,
-})
-
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    vim.cmd 'CopilotChatLoad chat'
-  end,
-})
+-- vim.api.nvim_create_autocmd('VimLeavePre', {
+--   callback = function()
+--     vim.cmd 'CopilotChatSave chat'
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--   callback = function()
+--     vim.cmd 'CopilotChatLoad chat'
+--   end,
+-- })
 
 -- Disabled copilot panel as it is not useful and bugs out the folke loader UI
 -- nmap('<leader>cP', '<cmd>Copilot panel<cr>', { desc = 'Panel' })

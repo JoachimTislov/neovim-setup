@@ -16,6 +16,7 @@ return { -- Autoformat
       javascript = { 'prettier' },
       typescript = { 'prettier' },
       vue = { 'prettier' },
+      yaml = { 'prettierd' },
       bash = { 'shfmt' },
       java = { 'google-java-format' },
       python = { 'black' },

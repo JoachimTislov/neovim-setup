@@ -5,7 +5,13 @@ return {
     gopls = {
       analyses = {
         unusedparams = true,
+        gofumpt = true,
       },
+      formatOnSave = true,
+      sourceOrganizeImports = true,
+      staticcheck = false,
+      completeUnimported = true,
+      usePlaceholder = true,
     },
   },
 }

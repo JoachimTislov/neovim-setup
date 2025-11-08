@@ -44,7 +44,7 @@ require 'config.keymaps'
 -- }
 require 'config.autocmds.yank-highlight'
 require 'config.autocmds.copilotBufEnter'
-require 'config.autocmds.lsp-autoimport'
+require 'config.autocmds.vue-autoimport'
 require 'config.lazy'
 
 vim.api.nvim_set_hl(0, 'CopilotChatHeader', { fg = '#7C3AED', bold = true })
