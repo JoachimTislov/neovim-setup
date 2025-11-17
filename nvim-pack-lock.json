@@ -1,5 +1,17 @@
 {
   "plugins": {
+    "CopilotChat.nvim": {
+      "rev": "ce48533",
+      "src": "https://github.com/CopilotC-Nvim/CopilotChat.nvim"
+    },
+    "copilot.vim": {
+      "rev": "da369d9",
+      "src": "https://github.com/github/copilot.vim"
+    },
+    "gitsigns.nvim": {
+      "rev": "cdafc32",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
     "lazydev.nvim": {
       "rev": "5231c62",
       "src": "https://github.com/folke/lazydev.nvim"
@@ -24,13 +36,37 @@
       "rev": "eb3ff49",
       "src": "https://github.com/rose-pine/neovim"
     },
+    "nvim-autopairs": {
+      "rev": "7a2c97c",
+      "src": "https://github.com/windwp/nvim-autopairs"
+    },
+    "nvim-colorizer.lua": {
+      "rev": "81e676d",
+      "src": "https://github.com/catgoose/nvim-colorizer.lua"
+    },
     "nvim-lspconfig": {
       "rev": "2010fc6",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
+    "nvim-treesitter": {
+      "rev": "42fc28ba",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "nvim-ts-autotag": {
+      "rev": "c4ca798",
+      "src": "https://github.com/windwp/nvim-ts-autotag"
+    },
     "oil.nvim": {
       "rev": "7e1cd77",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "plenary.nvim": {
+      "rev": "b9fd522",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "render-markdown.nvim": {
+      "rev": "e6a5cf4",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "typst-preview.nvim": {
       "rev": "64469f8",
@@ -43,6 +79,10 @@
     "which-key.nvim": {
       "rev": "3aab214",
       "src": "https://github.com/folke/which-key.nvim"
+    },
+    "workspace-diagnostics.nvim": {
+      "rev": "60f9175",
+      "src": "https://github.com/artemave/workspace-diagnostics.nvim"
     }
   }
 }
